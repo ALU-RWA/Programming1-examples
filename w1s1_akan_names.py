@@ -27,7 +27,7 @@ gender = input("Type M if you are male, F if you are female\n")
 name = ''
 
 # Figure out the appropriate name.
-if gender == 'F':
+if gender == 'F' or gender == 'f':
     if day_of_week == 0:
         name = 'Akosua'
     elif day_of_week == 1:
@@ -61,6 +61,7 @@ elif gender == 'M':
         name = 'Kwame'
     else:
         print("Not a valid day of the week")
-
+else:
+    print("You typed the wrong thing")
 # Print the name
 print("You would've been called " + name)
