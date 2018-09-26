@@ -18,9 +18,7 @@ x_temp = y_temp + (y_temp // 4) - (y_temp // 100) + (y_temp // 400)
 m_temp = month + 12*((14 - month) // 12) - 2
 day_of_week = (day + x_temp + 31 * m_temp // 12) % 7
 
-# Time to figure out if we are dealing with a Female or a Male.
-gender = input("Type M if you are male, F if you are female\n")
-
+gender = input("Type F for female or M for male\n")
 # The code below will decide what the name should be. We create the variable name here. That's the "box" we will put the
 # name in once we figure it out.
 # Think about what could happen with the code if we removed line 27?
@@ -62,6 +60,6 @@ elif gender == 'M':
     else:
         print("Not a valid day of the week")
 else:
-    print("You typed the wrong thing")
+    print("You gave me the wrong input")
 # Print the name
 print("You would've been called " + name)
