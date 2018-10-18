@@ -1,23 +1,36 @@
+# Define a list for female names, and a list for male names:
+
+female_names = ["Akosua", "Adwoa", "Abenaa", "Akua", "Yaa", "Afua", "Ama"]
+male_names = ["Kwasi", "Kwadwo", "Kwabena", "Kwaku", "Yaw", "Kofi", "Kwame"]
+
+
+# Define simple functions that check if a day or a month
+# is valid. They will return True or False
+def is_invalid_month(m):
+    return m < 0 or m > 12
+
+def is_invalid_day(d):
+    return d < 0 or d > 31
+
 # Prompt the user for their date of birth
 print("So you want to know your Akan name? Which day of the week where you born?")
+
 
 # Remember that the input we get from the user is a String.
 # We want to do some math with those numbers shortly, so we use the int() function to convert the input String
 # into a number.
 day = int(input("DD\n"))
+
+# While the user is giving us wrong day, ask them for a new one
+while is_invalid_day(day):
+    print("Valid days are between 1 and 12")
+    day = int(input("DD\n"))
+
+
+# Repeat for months
 month = int(input("MM\n"))
 
-
-def is_invalid(m):
-    if m > 0 and m <= 12:
-        return False
-    else:
-        return True
-
-def is_invalid2(m):
-    return m < 0 or m > 12
-
-while is_invalid2(month):
+while is_invalid_month(month):
     print("Valid months are between 1 and 12")
     month = int(input("MM\n"))
 
@@ -41,40 +54,11 @@ name = ''
 
 # Figure out the appropriate name.
 if gender == 'F' or gender == 'f':
-    if day_of_week == 0:
-        name = 'Akosua'
-    elif day_of_week == 1:
-        name = 'Adwoa'
-    elif day_of_week == 2:
-        name = 'Abenaa'
-    elif day_of_week == 3:
-        name = 'Akua'
-    elif day_of_week == 4:
-        name = 'Yaa'
-    elif day_of_week == 5:
-        name = 'Afua'
-    elif day_of_week == 6:
-        name = 'Ama'
-    else:
-        print("Not a valid day of the week")
-elif gender == 'M':
-    if day_of_week == 0:
-        name = 'Kwasi'
-    elif day_of_week == 1:
-        name = 'Kwadwo'
-    elif day_of_week == 2:
-        name = 'Kwabena'
-    elif day_of_week == 3:
-        name = 'Kwaku'
-    elif day_of_week == 4:
-        name = 'Yaw'
-    elif day_of_week == 5:
-        name = 'Kofi'
-    elif day_of_week == 6:
-        name = 'Kwame'
-    else:
-        print("Not a valid day of the week")
+    name = female_names[day_of_week]
+elif gender == 'M' or gender == 'm':
+    name = male_names[day_of_week]
 else:
     print("You gave me the wrong input")
+
 # Print the name
 print("You would've been called " + name)
