@@ -33,6 +33,15 @@ class State():
         pass
 
 
+# May be before we talk about image it is important to know how colors are defined in python
+# Colors in Rhino are represented as zero-based, one-dimensional arrays that contain four values.
+#  The first 3 values are the Red, Green and Blue channels. Each channel may contain a value from 0 to 255.
+#  The fourth value is the Alpha Channel.
+#  This control transparency of the color.
+# 0 is completely transparent and the default value of 255 is completely opaque.
+# visit this link to see the colors and their numbers
+#https://www.rapidtables.com/web/color/RGB_Color.html#color-table
+
 class CS1Image(QImage):
     def get_pixel(self, x, y):
         p = self.pixel(x, y)
@@ -44,6 +53,7 @@ class CS1Image(QImage):
 
         return r, g, b, a
 
+
     def set_pixel(self, x, y, r, g, b, a = 1.0):
         ri = int(r * 255)
         gi = int(g * 255)
@@ -54,6 +64,10 @@ class CS1Image(QImage):
         self.setPixel(x, y, qrgba)
 
 
+# The widget is the atom of the user interface: it receives mouse,
+#  keyboard and other events from the window system, and paints a representation of itself on the screen.
+# Every widget is rectangular,
+# and they are sorted in a Z-order. A widget is clipped by its parent and by the widgets in front of it.
 class CS1Canvas(QWidget):
 
     def __init__(self, draw_fn, data, window_x, window_y, width, height, title, framerate,
@@ -83,6 +97,7 @@ class CS1Canvas(QWidget):
         # basic state setup
 
         self.fill_enabled = True
+        #self.fill_enabled = False
         self.stroke_enabled = True
 
         self.stroke_width = 1
@@ -99,12 +114,21 @@ class CS1Canvas(QWidget):
         self.font_italic = False
 
         # initialize image just so that there is one for first redraw
+        # some information about the Qt class
+        # Qt provides four classes for handling image data: QImage, QPixmap, QBitmap and QPicture.
+        # QImage is designed and optimized for I/O, and for direct pixel access and manipulation,
+        #  while QPixmap is designed and optimized for showing images on screen.
+        #  QBitmap is only a convenience class that inherits QPixmap, ensuring a depth of 1.
+        # Finally, the QPicture class is a paint device that records and replays QPainter commands.
         self.image = QImage(self.size(), QImage.Format_ARGB32_Premultiplied)
         self.init_qt()
 
         # get the size right this time
         self.image = QImage(self.size(), QImage.Format_ARGB32_Premultiplied)
 
+        # The QPainter class performs low-level painting on widgets and other paint devices
+        # follow this link if you want to know more about the QPainter
+        # https://doc.qt.io/qt-5/qpainter.html
         self.ipainter = QPainter(self.image)
         self.ipainter.setRenderHint(QPainter.Antialiasing, True)
         self.ipainter.setRenderHint(QPainter.SmoothPixmapTransform, True)
@@ -378,6 +402,7 @@ class CS1Canvas(QWidget):
 
     def draw_text(self, s, x, y):
 
+        # draws the text at the x , y position
         self.ipainter.drawText(x, y, s)
 
     def get_text_width(self, str):
@@ -486,26 +511,32 @@ def clear():
     canvas.clear()
 
 
+# draws a point
 def draw_point(x, y):
     canvas.draw_point(x, y)
 
 
+# draws a line from position x1, y1 to position x2, y2
 def draw_line(x1, y1, x2, y2):
     canvas.draw_line(x1, y1, x2, y2)
 
 
+# you pass it points and it gives a polygon that connects those points
 def draw_polygon(vertices):
     canvas.draw_polygon(vertices)
 
 
+# draws a triangle
 def draw_triangle(x1, y1, x2, y2, x3, y3):
     draw_polygon([(x1, y1), (x2, y2), (x3, y3)])
 
 
+# draws a circle
 def draw_circle(x, y, r):
     draw_ellipse(x, y, r, r)
 
 
+# draws an ellipse
 def draw_ellipse(x, y, rx, ry):
     assert rx >= 0
     assert ry >= 0
@@ -516,10 +547,12 @@ def draw_ellipse(x, y, rx, ry):
     canvas.draw_ellipse(x, y, rx, ry)
 
 
+# draws a rectangle
 def draw_rectangle(x, y, w, h):
     canvas.draw_rectangle(x, y, w, h)
 
 
+# draws a text ( writes test )
 def draw_text(string, x, y):
     canvas.draw_text(string, x, y)
 
@@ -627,8 +660,14 @@ if __name__ == '__main__':
         set_clear_color(.8, .4, .4)
         clear()
 
+        # it is good that before drawing you set the
+        #  stroke color which is going to be the counturing color of the shape that you are about to draw
+        # as well as fill_color which is the color of the inside of your shape
+        # setting the color of the inside of the rectangle
         set_fill_color(.2, .5, .9)
+        # setting the color of the outside or (perimeter of the rectangle )
         set_stroke_color(1, 1, 0)
+        # drawing the rectangle
         draw_rectangle(100, 100, 200, 200)
 
         set_stroke_color(0, 0, 0)
@@ -643,7 +682,8 @@ if __name__ == '__main__':
         x += vx
 
         if x + 5 > 300 or x - 5 < 100:
-            vx *= -1
+
+           vx *= -1
 
         set_font("Times")
         set_font_bold()
@@ -666,4 +706,4 @@ if __name__ == '__main__':
         star_img = load_image("star.png")
 
     start_graphics(draw, width=500, height=500, mouse_press=on_click, mouse_release=on_release, mouse_move=on_move,
-                   key_press=on_keydown, key_release=on_keyup)
+                  key_press=on_keydown, key_release=on_keyup)
